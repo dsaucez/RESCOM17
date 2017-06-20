@@ -58,20 +58,20 @@ G_json = {'directed': False,
              {'ip': '192.0.2.22', 'type': 'host', 'id': 'h22'}, 
              {u'ip': '192.0.2.12', u'type': 'host', 'id': 'h12'}],
           'links': [
-              {'source': 0, 'target': 2},   # s13-s11
-              {'source': 0, 'target': 8},   # s13-s24
-              {'source': 1, 'target': 2},   # s12-s11
-              {'source': 1, 'target': 4},   # s12-s14
-              {'source': 2, 'target': 11},  # s11-h12
-              {'source': 2, 'target': 9},   # s11-h11
-              {'source': 3, 'target': 7},   # h21-s21
-              {'source': 4, 'target': 8},   # s14-s24
-              {'source': 5, 'target': 7},   # s22-s21
-              {'source': 5, 'target': 4},   # s22-s14
-              {'source': 6, 'target': 7},   # s23-s21 
-              {'source': 6, 'target': 8},   # s23-s24
-              {'source': 7, 'target': 10}], # s21-h22
-          'multigraph': False}
+              {'source': 0, 'target': 2},
+              {'source': 0, 'target': 4},
+              {'source': 1, 'target': 2},
+              {'source': 1, 'target': 4},
+              {'source': 2, 'target': 11},
+              {'source': 2, 'target': 9},
+              {'source': 3, 'target': 7},
+              {'source': 4, 'target': 8},
+              {'source': 5, 'target': 7},
+              {'source': 5, 'target': 8},
+              {'source': 6, 'target': 7},
+              {'source': 6, 'target': 8},
+              {'source': 7, 'target': 10}],
+          'multigraph': False} 
 G = json_graph.node_link_graph(G_json)
 
 
