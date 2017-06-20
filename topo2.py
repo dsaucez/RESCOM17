@@ -58,19 +58,19 @@ G_json = {'directed': False,
              {'ip': '192.0.2.22', 'type': 'host', 'id': 'h22'}, 
              {u'ip': '192.0.2.12', u'type': 'host', 'id': 'h12'}],
           'links': [
-              {'source': 0, 'target': 2},
-              {'source': 0, 'target': 4},
-              {'source': 1, 'target': 2},
-              {'source': 1, 'target': 4},
-              {'source': 2, 'target': 11},
-              {'source': 2, 'target': 9},
-              {'source': 3, 'target': 7},
-              {'source': 4, 'target': 8},
-              {'source': 5, 'target': 7},
-              {'source': 5, 'target': 8},
-              {'source': 6, 'target': 7},
-              {'source': 6, 'target': 8},
-              {'source': 7, 'target': 10}],
+              {'source': 0, 'target': 2},   # s13-s11
+              {'source': 0, 'target': 8},   # s13-s24
+              {'source': 1, 'target': 2},   # s12-s11
+              {'source': 1, 'target': 4},   # s12-s14
+              {'source': 2, 'target': 11},  # s11-h12
+              {'source': 2, 'target': 9},   # s11-h11
+              {'source': 3, 'target': 7},   # h21-s21
+              {'source': 4, 'target': 8},   # s14-s24
+              {'source': 5, 'target': 7},   # s22-s21
+              {'source': 5, 'target': 4},   # s22-s14
+              {'source': 6, 'target': 7},   # s23-s21 
+              {'source': 6, 'target': 8},   # s23-s24
+              {'source': 7, 'target': 10}], # s21-h22
           'multigraph': False} 
 G = json_graph.node_link_graph(G_json)
 
@@ -176,6 +176,7 @@ def main():
 
     net.start()
     net.startTerms() 
+    sleep(10)
     # default route to gateway for each host on eth0
     # in s1 network
     for h in [net.get(n) for n in G.nodes() if G.node[n]["type"] == "host"]:
@@ -183,6 +184,7 @@ def main():
        h.setDefaultRoute("dev eth0 via 192.0.2.1") # set the default route
        h.cmd("./beat.sh &")    # launch heart beat on every host
 
+    sleep(10)
     for s in [net.get(n) for n in G.nodes() if G.node[n]["type"] == "switch"]:
        cmd = "python lldpmain.py config/%s.json 2> log/lldp.%s.err &" % (str(s), str(s))
        print "LLDP on ", s, cmd
@@ -192,7 +194,7 @@ def main():
         h = net.get(n)
         h.describe()
 
-    sleep(1)
+    sleep(10)
 
     # prepare switches
     for port in [ G.node[n]["thrift_port"]  for n in G.nodes() if G.node[n]["type"] == "switch" ]:
@@ -207,7 +209,7 @@ def main():
                 print e
                 print e.output
 
-    sleep(1)
+    sleep(10)
 
     os.system("./switches.sh")
 

@@ -103,99 +103,16 @@ def load_config(filename):
     print "######################################################"
     # ==============================
 
-def flow_size(flow):
-    """
-    Returns the estimated size of the `flow`.
-
-    :param flow: flow to estimate the size of
-    :type flow: Flow
-    :return: flow size in float
-    """
-    return float(int(random.random() * 5.0))
-
-def decision_sampling(flow):
-    """
-    Randomly decides if the `flow` can be installed or not.
-
-    :param flow: flow to decide installation
-    :type flow: Flow
-    :return: True if the flow must be insatlled. Otherwise a False is returned.
-    """
-    return random.random() <= abar
-
-def decision_sequence(flow):
-    """
-    Decides according to the drift-plus-penalty with epoch if the `flow` can be
-    installed or not.
-
-    In this algorithm, \bar{a} is a budget of request per epoch.
-
-    :param flow: flow to decide installation
-    :type flow: Flow
-    :return: True if the flow must be insatlled. Otherwise a False is returned.
-    """
-    global Q	              # get virtual queue
-    
-    dk = flow_size(flow)      # estimated flow size
-    Vdk = V * dk              # flow importance
-
-    a = int(Q <= Vdk)         # decision of installing or not based on flow
-                              # importance and virtual queue size
-
-    # some logs for fun
-    print "%.2f\t%.2f\t%d" % (Q, Vdk, a)
-
-    Q = max(Q + float(a) - abar, 0.0) # recompute virtual queue
-
-    return bool(a)
-
-def decision_temporal(flow):
-    """
-    Decides according to the temporally approximated drift-plus-penalty if the
-    `flow` can be installed or not.
-
-    In this algorithm, \bar{a} is a budget of request per second.
-
-    :param flow: flow to decide installation
-    :type flow: Flow
-    :return: True if the flow must be insatlled. Otherwise a False is returned.
-    """
-    global Q		      # get virtual queue
-    global last_update	      # last time the virtual queue was updated
-
-
-    dk = flow_size(flow)      # estimated flow size
-    Vdk = V * dk              # flow importance
-
-
-    a = int(Q <= Vdk)         # decision of installing or not based on flow
-                              # importance and virtual queue size
-
-    # some logs for fun
-    print "%.2f\t%.2f\t%d" % (Q, Vdk, a)
-
-    # compute delta time since last update in order to know how much abar
-    # we can consume
-    now = time.time()
-    delta = now - last_update
-    ahat = abar * delta
-
-    Q = max(Q + float(a) - ahat, 0.0) # recompute virtual queue
-
-    last_update = now         # remember when was the last update
-    return bool(a)
- 
 def install(flow):
-    return True
     """
-    Returns wether or not the `flow` must be optimally installed
+    Returns whether or not the `flow` must be optimally installed
 
     :param flow: flow to make a decision on
     :param flow: Flow
     :return: True if the flow must be optimally installed. Otherwise a False is
              returned
     """
-    return decision_sequence(flow)
+    return True
   
 def optimal(flow):
     """
