@@ -225,6 +225,12 @@ time, once you see the message `READY: topology discovered!` it means your
 controller discovered the entire topology and you are ready to accept traffic
 between hosts.
 
+To stop the emulation, just type the following:
+
+```bash
+mininet> quit()
+```
+
 ##### Question 5
 
 During the week you (re)discovered the cloud. Based on what you have learned,
@@ -242,9 +248,22 @@ mininet> pingall
 mininet> iperf h11 h22
 ```
 
-##### Bonus question
+##### Question 6
+
+Tuesday talk presented data plane programmability. In the directory `p4src` you can
+see the implementation of the data plane of the switch we are using in this lab.
+
+We have implemented a specific protocol to communicate between the fast path
+and the slow path of the switch. Describe this protocol based on what you see
+on `p4src/cpu.p4`.
+
+In addition to this protocol, we have a protocol to communicate between the
+slow path (implemented in `cplane.py`) and the controller (implemented in
+`myController.py`). In this lab prototype we have (poorly :() implemented such
+southbound interface with an HTTP based REST API instead of relying on
+OpenFlow. Comment the advantages and drawbacks of using such HTTP based API.
 
 What are the respective advantages of the _push_, _pull_, and _pull-push_
-methods?
+methods and how do they impact the choice of southbound interface?
 
 

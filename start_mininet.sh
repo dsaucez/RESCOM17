@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo ./cleanup2.sh
 if [ -d config ]
 then
    sudo rm -rf config
@@ -13,6 +14,6 @@ mkdir log
 
 python myController.py &
 controller=$!
-sudo ./cleanup2.sh && sudo ./run_demo2.sh
+sudo ./run_demo2.sh
 sudo killall cplane.py
 kill $!

@@ -22,7 +22,7 @@ class MyRouting(RESTRequestHandlerRouting):
 
         :return: a list of switch names
         """
-        return self.topology.paths.onePath(src, dst)
+        raise Exception("Yep you have to implement it :D")
 
     def _routing(self, switch, flow):
         # == Sanity checks ===============================================
