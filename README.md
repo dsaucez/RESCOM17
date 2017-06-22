@@ -7,8 +7,8 @@ way you manage your network. However, it also comes with two great questions:
 2. How to compute routes?
 
 Due to the short time of the lab session and to focus on the concepts, the lab
-will be realized on a simple home-made SDN controller written in Python that
-abstracts the technology used to implement SDN. 
+will be realized on a simple home-made SDN controller written in Python and a
+switch implemented in P4 and Python.
 
 ## Background
 
@@ -46,9 +46,9 @@ In the _pull-push_ case, it is essential, particularly at layer 2 that cannot
 prevent frame loops, to ensure that routes are correctly pushed on the switches
 before forwarding packets otherwise transient loop may occur or unnecessary
 control plane message may be sent. In this lab, we will install routes from the
-the first hop to the last hop sequentially and then only to the switch that
-triggers the request. That way, a packet will not be forwarded on the path as
-long as it is not set up entirely.
+second hop to the last hop, sequentially, and then only to the first hop switch
+that triggered the request. That way, a packet will not be forwarded on the
+path as long as it is not set up entirely.
 
 ### Flow 
 
@@ -100,20 +100,19 @@ between these edges along the shortest path.
 
 ##### Load balancing
 
-When multiple spanning trees or shortest paths exist, load balancing is often
-performed meaning that the traffic can be spread on all the paths to the
-destination.
+When multiple paths exist, load balancing is often performed meaning that the
+traffic can be spread on all the paths to the destination.
 
 Different solutions exist to perform load balancing. The two most common
 solution are: 
 
-1. Random: the shortest path to be followed by a packet is selected randomly,
-for each packet.
+1. Random: the path to be followed by a packet is selected randomly, for each
+   packet or flow.
 
-2. Deterministic: the shortest path to be followed by a packet is selected
-according to a deterministic function, for each packet. To guarantee stability
-of packets of a given flow, the function usually returns the same choice for
-every packet belonging to the same flow.
+2. Deterministic: the path to be followed by a packet is selected according to
+   a deterministic function. To guarantee stability of packets of a given flow,
+   the function usually returns the same choice for every packet belonging to
+   the same flow.
 
 ## Lab instructions
 
@@ -126,8 +125,8 @@ Switches are implemented with [P4](http://p4.org) and the SDN controller is
 implemented in Python just for the sake of this lab.
 
 During the lab session you will first implement shortest path routing for
-*Layer 3 destination* and *5-tuples* flows. You will then implement a mechanism
-to balance the load based on the information given by the *5-tuples* flows.
+*5-tuples* flows. You will then implement a mechanism to balance the load based
+on the information given by the *5-tuples* flows.
 
 Every time a switch receives a packet for which it doesn't know the forwarding
 port, the controller receives a _pull_ request. You will implement the
@@ -173,20 +172,13 @@ method is implemented in the controller.
 
 ##### Question 1
 
-Modify `getPath(src, dst, flow)` to implement *Layer 3 destination based
-shortest path routing*.
+Modify `getPath(src, dst, flow)` to implement *5-tuples shortest path routing*.
 
 Describe your algorithm and implement it.
 
 ##### Question 2
 
-Modify `getPath(src, dst, flow)` to implement *5-tuples shortest path routing*.
-
-Describe your algorithm and implement it.
-
-##### Question 3
-
-Modify your implementation of Question 2 to support load balancing.
+Modify your implementation of Question 1 to support load balancing.
 
 a) Describe an algorithm for random load balancing oblivious to network load
 and implement it.
@@ -204,7 +196,7 @@ controller?
    
    c.iii) What are the drawbacks of accounting for the actual load of the network?
 
-##### Question 4
+##### Question 3
 
 In the lab we worked only with the _pull-push_ method. What are the advantages
 of _push_, _pull_, and _pull-push_ methods, respectively?
@@ -231,7 +223,7 @@ To stop the emulation, just type the following:
 mininet> quit()
 ```
 
-##### Question 5
+##### Question 4
 
 During the week you (re)discovered the cloud. Based on what you have learned,
 implement a small application that will allow you to test the different
@@ -248,7 +240,7 @@ mininet> pingall
 mininet> iperf h11 h22
 ```
 
-##### Question 6
+##### Question 5
 
 Tuesday talk presented data plane programmability. In the directory `p4src` you can
 see the implementation of the data plane of the switch we are using in this lab.
